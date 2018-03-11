@@ -1,0 +1,287 @@
+{
+	"name": "E",
+	"components": [{
+			"name": "Transform",
+			"properties": [{
+					"name": "position",
+					"value": {
+						"x": 89.929306,
+						"y": 138.924744,
+						"z": 527.875
+					}
+				}, {
+					"name": "localPosition",
+					"value": {
+						"x": 89.929306,
+						"y": 138.924744,
+						"z": 527.875
+					}
+				}, {
+					"name": "eulerAngles",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "localEulerAngles",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "right",
+					"value": {
+						"x": 1.0,
+						"y": 0.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "up",
+					"value": {
+						"x": 0.0,
+						"y": 1.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "forward",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 1.0
+					}
+				}, {
+					"name": "rotation",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0,
+						"w": 1.0
+					}
+				}, {
+					"name": "localRotation",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0,
+						"w": 1.0
+					}
+				}, {
+					"name": "localScale",
+					"value": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}, {
+					"name": "parent",
+					"value": null
+				}, {
+					"name": "hasChanged",
+					"value": true
+				}, {
+					"name": "hierarchyCapacity",
+					"value": 1
+				}
+			]
+		}, {
+			"name": "BoxCollider",
+			"properties": [{
+					"name": "center",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "size",
+					"value": {
+						"x": 1.0,
+						"y": 1.0,
+						"z": 1.0
+					}
+				}, {
+					"name": "extents",
+					"value": {
+						"x": 0.5,
+						"y": 0.5,
+						"z": 0.5
+					}
+				}, {
+					"name": "enabled",
+					"value": true
+				}, {
+					"name": "isTrigger",
+					"value": false
+				}, {
+					"name": "contactOffset",
+					"value": 0.01
+				}, {
+					"name": "material",
+					"value": {
+						"dynamicFriction": 0.6,
+						"staticFriction": 0.6,
+						"bounciness": 0.0,
+						"bouncyness": 0.0,
+						"frictionDirection2": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"dynamicFriction2": 0.0,
+						"staticFriction2": 0.0,
+						"frictionCombine": "Average",
+						"bounceCombine": "Average",
+						"frictionDirection": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"name": "Default (Instance)",
+						"hideFlags": "None"
+					}
+				}, {
+					"name": "sharedMaterial",
+					"value": {
+						"dynamicFriction": 0.6,
+						"staticFriction": 0.6,
+						"bounciness": 0.0,
+						"bouncyness": 0.0,
+						"frictionDirection2": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"dynamicFriction2": 0.0,
+						"staticFriction2": 0.0,
+						"frictionCombine": "Average",
+						"bounceCombine": "Average",
+						"frictionDirection": {
+							"x": 0.0,
+							"y": 0.0,
+							"z": 0.0
+						},
+						"name": "Default (Instance)",
+						"hideFlags": "None"
+					}
+				}
+			]
+		}, {
+			"name": "Rigidbody",
+			"properties": [{
+					"name": "velocity",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "angularVelocity",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "drag",
+					"value": 3.21
+				}, {
+					"name": "angularDrag",
+					"value": 0.05
+				}, {
+					"name": "mass",
+					"value": 1.0
+				}, {
+					"name": "useGravity",
+					"value": true
+				}, {
+					"name": "maxDepenetrationVelocity",
+					"value": 1E+32
+				}, {
+					"name": "isKinematic",
+					"value": true
+				}, {
+					"name": "freezeRotation",
+					"value": false
+				}, {
+					"name": "constraints",
+					"value": 40
+				}, {
+					"name": "collisionDetectionMode",
+					"value": "Discrete"
+				}, {
+					"name": "centerOfMass",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0
+					}
+				}, {
+					"name": "inertiaTensorRotation",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0,
+						"w": 1.0
+					}
+				}, {
+					"name": "inertiaTensor",
+					"value": {
+						"x": 1.0,
+						"y": 0.0,
+						"z": 1.0
+					}
+				}, {
+					"name": "detectCollisions",
+					"value": true
+				}, {
+					"name": "useConeFriction",
+					"value": false
+				}, {
+					"name": "position",
+					"value": {
+						"x": 89.929306,
+						"y": 138.924744,
+						"z": 527.875
+					}
+				}, {
+					"name": "rotation",
+					"value": {
+						"x": 0.0,
+						"y": 0.0,
+						"z": 0.0,
+						"w": 1.0
+					}
+				}, {
+					"name": "interpolation",
+					"value": "None"
+				}, {
+					"name": "solverIterations",
+					"value": 6
+				}, {
+					"name": "solverIterationCount",
+					"value": 6
+				}, {
+					"name": "solverVelocityIterations",
+					"value": 1
+				}, {
+					"name": "solverVelocityIterationCount",
+					"value": 1
+				}, {
+					"name": "sleepVelocity",
+					"value": 0.0
+				}, {
+					"name": "sleepAngularVelocity",
+					"value": 0.0
+				}, {
+					"name": "sleepThreshold",
+					"value": 0.005
+				}, {
+					"name": "maxAngularVelocity",
+					"value": 7.0
+				}
+			]
+		}
+	]
+}
