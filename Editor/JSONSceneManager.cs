@@ -8,6 +8,8 @@ using System;
 
 public class JSONSceneManager : EditorWindow
 {
+
+
     static string GeneratedJSONPath
     {
         get
@@ -28,10 +30,7 @@ public class JSONSceneManager : EditorWindow
     static void Init()
     {
         string path = GeneratedJSONPath + CurrentTime + ".json";
-
-        //File.Create(path);
         File.WriteAllText(path, Newtonsoft.Json.JsonConvert.SerializeObject(GetAllJSONObjectsInScene()));
-        //File.WriteAllBytes(path, Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(GetAllJSONObjectsInScene())));
     }
 
     public static List<JSONGameObject> GetAllJSONObjectsInScene()
