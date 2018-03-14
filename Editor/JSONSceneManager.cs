@@ -10,14 +10,6 @@ public class JSONSceneManager : EditorWindow
 {
 
 
-    static string GeneratedJSONPath
-    {
-        get
-        {
-            return Application.dataPath + "/JSONGameObject/Editor/GeneratedJSON/";
-        }
-    }
-
     static string CurrentTime
     {
         get
@@ -26,12 +18,19 @@ public class JSONSceneManager : EditorWindow
         }
     }
 
-    [MenuItem("JSONTool/JSON From Scene")]
-    static void Init()
+    [MenuItem("JSONGameObject/JSON From Scene GameObjects")]
+    static void JSONFromSceneGameObjects()
     {
-        string path = GeneratedJSONPath + CurrentTime + ".json";
-        File.WriteAllText(path, Newtonsoft.Json.JsonConvert.SerializeObject(GetAllJSONObjectsInScene()));
+        FilePanel.Save(Newtonsoft.Json.JsonConvert.SerializeObject(GetAllJSONObjectsInScene()), CurrentTime);
     }
+
+    [MenuItem("JSONGameObject/Scene GameObjects From JSON")]
+    static void SceneGameObjectsFromJSON()
+    {
+        List<JSONGameObject> jsonGameObjects = Newtonsoft.Json.JsonConvert.DeserializeObject<List<JSONGameObject>>(FilePanel.Load());
+        jsonGameObjects.ToGameObjects();
+    }
+
 
     public static List<JSONGameObject> GetAllJSONObjectsInScene()
     {

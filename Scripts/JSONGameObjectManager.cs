@@ -9,9 +9,69 @@ public static class JSONGameObjectManager
 {
     static bool debug = false;
 
-    public static void EnableDebug(bool value)
+    public static bool DebugEnabled
     {
-        debug = value;
+        get
+        {
+            return debug;
+        }
+        set
+        {
+            debug = value;
+        }
+    }
+
+    /// <summary>
+    /// Construct JSONGameObject from a JSON
+    /// </summary>
+    /// <param name="gameObject"></param>
+    public static JSONGameObject Serialize(string json)
+    {
+        JSONGameObject jsonGameObject = null;
+        try
+        {
+            jsonGameObject = Newtonsoft.Json.JsonConvert.DeserializeObject<JSONGameObject>(json);
+            foreach (JSONComponent jsonComponent in jsonGameObject.components)
+            {
+                foreach (JSONProperty jsonProperty in jsonComponent.properties)
+                {
+                    if (jsonProperty.value == null) continue;
+
+                    Debug.Log(jsonProperty);
+                    Type type = GetTypeByName(jsonProperty.type);
+
+                    if (type.IsEnum)//Enums
+                    {
+                        if (debug) Debug.Log("ENUM[" + type.Name + "]");
+                        jsonProperty.value = Enum.Parse(type, jsonProperty.value.ToString());
+                    }
+                    else if (type.IsPrimitive)//Primitive values
+                    {
+                        if (debug) Debug.Log("PRIMITIVE[" + type.Name + "]");
+                        //propertyInfo.SetValue(unityComponent, Convert.ChangeType(property.value, propertyInfo.PropertyType), null);
+                        jsonProperty.value = Convert.ChangeType(jsonProperty.value, type);
+                    }
+                    else if (type.IsValueType)//Structs
+                    {
+                        if (debug) Debug.Log("STRUCT[" + type.Name + "]");
+                        //propertyInfo.SetValue(unityComponent, property.value, null);
+                        jsonProperty.value = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonProperty.value.ToString(), type);
+                    }
+                    else
+                    {
+                        if (debug) Debug.Log("OTHER[" + type.Name + "]");
+                        jsonProperty.value = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonProperty.value.ToString(), type);
+                    }
+
+                    Debug.Log(jsonProperty);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+        return jsonGameObject;
     }
 
     /// <summary>
@@ -45,7 +105,7 @@ public static class JSONGameObjectManager
 
                     if (property.GetSetMethod() != null)
                     {
-                        jproperty.Add(new JSONProperty(property.Name, component.GetType().GetProperty(property.Name).GetValue(component, null)));
+                        jproperty.Add(new JSONProperty(property.Name, property.PropertyType.Name, component.GetType().GetProperty(property.Name).GetValue(component, null)));
                     }
                     else
                     {
@@ -75,7 +135,8 @@ public static class JSONGameObjectManager
 
         foreach (JSONComponent jComponent in jSONGameObject.components)
         {
-            Type type = Type.GetType(jComponent.name);
+            //Getting tipe from this way is slow, it can be optimized
+            Type type = GetTypeByName(jComponent.name);//Type.GetType(jComponent.name);
             if (type == null)
             {
                 if (debug) Debug.LogError("Type doesnt exists: [" + jComponent.name + "]");
@@ -134,16 +195,6 @@ public static class JSONGameObjectManager
                     {
                         if (debug) Debug.Log("ENUM[" + propertyInfo.PropertyType.Name + "]");
                         propertyInfo.SetValue(unityComponent, property.value, null);
-
-                        /*if (propertyInfo.PropertyType.IsDefined(propertyInfo.PropertyType, true)){
-                            parsedValue = (Enum)Enum.ToObject(propertyInfo.PropertyType, property.value.ToString());
-                        }
-                        else
-                        {
-                            Debug.LogError("Enum not defined for property " + propertyInfo.Name);
-                            continue;
-                        }*/
-
                     }
                     else if (propertyInfo.PropertyType.IsPrimitive)//Primitive values
                     {
@@ -159,7 +210,7 @@ public static class JSONGameObjectManager
                     {
                         if (debug) Debug.Log("OTHER[" + propertyInfo.PropertyType.Name + "]");
                         if (debug) Debug.LogWarning(" property " + propertyInfo.Name + " of component " + jComponent.name + " of object " + jSONGameObject.name + " " + property.value.ToString() + " is not a valueType");
-
+                        /*
                         if (property.value != null && property.value.ToString() != "None")
                         {
                             JObject o = JObject.Parse(property.value.ToString());//Parsed  json property as jobject
@@ -169,6 +220,18 @@ public static class JSONGameObjectManager
                                 if (debug) Debug.Log(field.Name);
                                 field.SetValue(field, value);
                             }
+                        }*/
+                        try
+                        {
+                            propertyInfo.SetValue(unityComponent, property.value, null);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            propertyInfo.SetValue(unityComponent, Newtonsoft.Json.JsonConvert.DeserializeObject(property.value.ToString()), null);
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
                         }
                     }
 
@@ -184,6 +247,20 @@ public static class JSONGameObjectManager
         }
 
         return gameObject;
+    }
+
+    public static Type GetTypeByName(string name)
+    {
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (type.Name == name)
+                    return type;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -219,6 +296,21 @@ public static class JSONGameObjectManager
     public static GameObject ToGameObject(this JSONGameObject JSONGameObject)
     {
         return GameObject(JSONGameObject);
+    }
+
+    /// <summary>
+    /// Create a new gameobject from JSONGameObject data
+    /// </summary>
+    /// <param name="JSONGameObjects"></param>
+    /// <returns></returns>
+    public static List<GameObject> ToGameObjects(this List<JSONGameObject> JSONGameObjects)
+    {
+        List<GameObject> gameObjects = new List<GameObject>();
+        foreach (JSONGameObject JSONGameObject in JSONGameObjects)
+        {
+            gameObjects.Add(JSONGameObject.ToGameObject());
+        }
+        return gameObjects;
     }
     #endregion
 

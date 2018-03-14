@@ -10,12 +10,14 @@ public class JSONGameObjectTesting : MonoBehaviour {
     /// <summary>
     /// Path of the JSONGameObject to test
     /// </summary>
-    public string jsonPath;
+    public TextAsset jsonFile;
     public GameObject gameObjectToSerialize;
 
-    void Update()
+    private void OnGUI()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        JSONGameObjectManager.DebugEnabled = GUILayout.Toggle(JSONGameObjectManager.DebugEnabled, "JSON Debug Enabled?");
+        if (GUILayout.Button("Instantiate from a gameObject copy"))
         {
             if (gameObjectToSerialize)
             {
@@ -36,11 +38,21 @@ public class JSONGameObjectTesting : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (GUILayout.Button("Instantiate gameObject from JSON File"))
         {
-            TextAsset textAsset = Resources.Load<TextAsset>(jsonPath);
-            JSONGameObject jsonGameObject = JsonConvert.DeserializeObject<JSONGameObject>(textAsset.text);
+            JSONGameObject jsonGameObject = JsonConvert.DeserializeObject<JSONGameObject>(jsonFile.text);
             jsonGameObject.ToGameObject();
+        }
+
+        if (GUILayout.Button("Instantiate a list of gameObjects from JSON File"))
+        {
+            List<JSONGameObject> jsonGameObjects = JsonConvert.DeserializeObject<List<JSONGameObject>>(jsonFile.text);
+            jsonGameObjects.ToGameObjects();
+        }
+        if (GUILayout.Button("Testing custom deserialization"))
+        {
+            JSONGameObject jsonGameObjects = JSONGameObjectManager.Serialize(jsonFile.text);
+            jsonGameObjects.ToGameObject();
         }
     }
 
